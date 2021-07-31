@@ -8,40 +8,47 @@ namespace Takaya030\OAuth;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 
-//use \Config;
-//use \URL;
+use \Config;
+use \URL;
+
 use \OAuth\ServiceFactory;
 use \OAuth\Common\Consumer\Credentials;
 
 class OAuth {
+
     /**
      * @var ServiceFactory
      */
     private $_serviceFactory;
+
     /**
      * Storege name from config
      *
      * @var string
      */
     private $storageClass = '\\OAuth\\Common\\Storage\\Session';
+
     /**
      * Client ID from config
      *
      * @var string
      */
     private $client_id;
+
     /**
      * Client secret from config
      *
      * @var string
      */
     private $client_secret;
+
     /**
      * Scope from config
      *
      * @var array
      */
     private $scope = [];
+
     /**
      * Constructor
      *
@@ -55,6 +62,7 @@ class OAuth {
         }
         $this->_serviceFactory = $serviceFactory;
     }
+
     /**
      * Detect config and set data from it
      *
@@ -64,14 +72,15 @@ class OAuth {
     {
         $accessor = '::';
         // if config/oauth-lumen.php exists use this one
-        if (config('oauth-lumen.consumers') != null) {
+        if (Config::get('oauth-8-laravel.consumers') != null) {
             $accessor = '.';
         }
-        $this->storageClass  = config("oauth-lumen{$accessor}storage", $this->storageClass);
-        $this->client_id     = config("oauth-lumen{$accessor}consumers.$service.client_id");
-        $this->client_secret = config("oauth-lumen{$accessor}consumers.$service.client_secret");
-        $this->scope         = config("oauth-lumen{$accessor}consumers.$service.scope", []);
+        $this->storageClass  = Config::get("oauth-8-laravel{$accessor}storage", $this->storageClass);
+        $this->client_id     = Config::get("oauth-8-laravel{$accessor}consumers.$service.client_id");
+        $this->client_secret = Config::get("oauth-8-laravel{$accessor}consumers.$service.client_secret");
+        $this->scope         = Config::get("oauth-8-laravel{$accessor}consumers.$service.scope", []);
     }
+
     /**
      * Create storage instance
      *
@@ -82,8 +91,10 @@ class OAuth {
     public function createStorageInstance($storageClass)
     {
         $storage = new $storageClass();
+
         return $storage;
     }
+
     /**
      * Set the http client object
      *
@@ -121,19 +132,23 @@ class OAuth {
     {
         // get config
         $this->setConfig($service);
+
         // get storage object
         $storage = $this->createStorageInstance($this->storageClass);
+
         // create credentials object
         $credentials = new Credentials(
             $this->client_id,
             $this->client_secret,
-            $url ? : url()
+            $url ? : URL::current()
         );
+
         // check if scopes were provided
         if (is_null($scope)) {
             // get scope from config (default to empty array)
             $scope = $this->scope;
         }
+
         // return the service consumer object
         return $this->_serviceFactory->createService($service, $credentials, $storage, $scope);
     }
