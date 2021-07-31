@@ -1,9 +1,9 @@
 {
-    "name": "takaya030/oauth-lumen",
+    "name": "takaya030/oauth-8-laravel",
     "type": "library",
-    "description": "OAuth Service Provider for Lumen 6",
-    "keywords": ["OAuth", "Lusitanian", "lumen", "php"],
-    "homepage": "https://github.com/takaya030/oauth-lumen",
+    "description": "OAuth Service Provider for Laravel 8",
+    "keywords": ["OAuth", "Lusitanian", "laravel", "php"],
+    "homepage": "https://github.com/takaya030/oauth-8-laravel",
     "license": "MIT",
     "authors": [
 		{
