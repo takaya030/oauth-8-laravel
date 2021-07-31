@@ -8,8 +8,9 @@ use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Token\TokenInterface;
 
-class OAuthLumenSession implements TokenStorageInterface
+class OAuthLaravelSession implements TokenStorageInterface
 {
+
     /**
      * @param string $service
      *
@@ -20,10 +21,12 @@ class OAuthLumenSession implements TokenStorageInterface
     public function retrieveAccessToken($service)
     {
         if ($this->hasAccessToken($service)) {
-            return unserialize(app('session')->get('oauth.token.'.$service));
+            return unserialize(Session::get('oauth.token.'.$service));
         }
+
         throw new TokenNotFoundException('Token not found in session, are you sure you stored it?');
     }
+
     /**
      * @param string $service
      * @param TokenInterface $token
@@ -33,9 +36,11 @@ class OAuthLumenSession implements TokenStorageInterface
     public function storeAccessToken($service, TokenInterface $token)
     {
         $serializedToken = serialize($token);
-        app('session')->put('oauth.token.'.$service, $serializedToken);
+        Session::put('oauth.token.'.$service, $serializedToken);
+
         return $this;
     }
+
     /**
      * @param string $service
      *
@@ -43,8 +48,9 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function hasAccessToken($service)
     {
-         return app('session')->has('oauth.token.'.$service);
+         return Session::has('oauth.token.'.$service);
     }
+
     /**
      * Delete the users token. Aka, log out.
      *
@@ -54,9 +60,10 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function clearToken($service)
     {
-        app('session')->forget('oauth.token.'.$service);
+        Session::forget('oauth.token.'.$service);
         return $this;
     }
+
     /**
      * Delete *ALL* user tokens. Use with care. Most of the time you will likely
      * want to use clearToken() instead.
@@ -65,9 +72,10 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function clearAllTokens()
     {
-        app('session')->forget('oauth.token');
+        Session::forget('oauth.token');
         return $this;
     }
+
     /**
      * Store the authorization state related to a given service
      *
@@ -78,9 +86,10 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function storeAuthorizationState($service, $state)
     {
-        app('session')->put('oauth.state.'.$service, $state);
+        Session::put('oauth.state.'.$service, $state);
         return $this;
     }
+
     /**
      * Check if an authorization state for a given service exists
      *
@@ -90,8 +99,9 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function hasAuthorizationState($service)
     {
-        return app('session')->has('oauth.state.'.$service);
+        return Session::has('oauth.state.'.$service);
     }
+
     /**
      * Retrieve the authorization state for a given service
      *
@@ -103,10 +113,12 @@ class OAuthLumenSession implements TokenStorageInterface
     public function retrieveAuthorizationState($service)
     {
         if ($this->hasAuthorizationState($service)) {
-            return app('session')->get('oauth.state.'.$service);
+            return Session::get('oauth.state.'.$service);
         }
+
         throw new AuthorizationStateNotFoundException('State not found in session, are you sure you stored it?');
     }
+
     /**
      * Clear the authorization state of a given service
      *
@@ -116,9 +128,10 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function clearAuthorizationState($service)
     {
-        app('session')->forget('oauth.state.'.$service);
+        Session::forget('oauth.state.'.$service);
         return $this;
     }
+
     /**
      * Delete *ALL* user authorization states. Use with care. Most of the time you will likely
      * want to use clearAuthorization() instead.
@@ -127,7 +140,7 @@ class OAuthLumenSession implements TokenStorageInterface
      */
     public function clearAllAuthorizationStates()
     {
-        app('session')->forget('oauth.state');
+        Session::forget('oauth.state');
         return $this;
     }
 }
