@@ -24,6 +24,9 @@ class OAuthServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__ . '/../../config/config.php' => config_path('oauth-8-laravel.php'),
+        ], 'config');
     }
     /**
      * Register the service provider.
