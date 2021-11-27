@@ -264,9 +264,7 @@ For examples go [here](https://github.com/Lusitanian/PHPoAuthLib/tree/master/exa
 
 ## How to use Custom Services
 
-Google Servie added score of Datastore as a sample custom service
-
-app/OAuth/Service/MyGoogle.php
+Create a custom Google Servie added scope of Datastore ```app/OAuth/Service/MyGoogle.php```
 
 ```php
 <?php
@@ -326,8 +324,8 @@ class OAuthServiceProvider extends ServiceProvider {
             // create oAuth instance
             $oauth = new \Takaya030\OAuth\OAuth();
 
-			// register custom service
-			$oauth->registerService('MyGoogle', \App\OAuth\Service\MyGoogle::class);
+            // register custom service
+            $oauth->registerService('MyGoogle', \App\OAuth\Service\MyGoogle::class);
 
             // return oAuth instance
             return $oauth;
