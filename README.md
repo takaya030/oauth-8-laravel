@@ -13,7 +13,9 @@ Was first developed by [Artdarek](https://github.com/artdarek/oauth-4-laravel) f
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Basic usage](#basic-usage)
+- [Usage examples](#usage-examples)
 - [More usage examples](#more-usage-examples)
+- [How to use Custom Services](#how-to-use-custom-services)
 
 ## Supported services
 
