@@ -360,7 +360,7 @@ Add your custom Google credentials to ``config/oauth-8-laravel.php``
 'MyGoogle' => [
     'client_id'     => 'Your Google client ID',
     'client_secret' => 'Your Google Client Secret',
-    'scope'         => ['userinfo_email', 'userinfo_profile'],
+    'scope'         => ['https://www.googleapis.com/auth/datastore'],
 ],	
 ```
 
